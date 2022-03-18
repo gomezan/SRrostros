@@ -5,7 +5,6 @@ import os
 import cv2
 
 import numpy as np
-from scipy import signal, misc
 
 import tensorflow as tf
 from PIL import Image
@@ -64,7 +63,7 @@ def graficarImagen(img, window_name: str):
     cv2.destroyAllWindows()
 
 def procesarImagen(img):
-    return cv2.resize(img, (512, 512), interpolation=cv2.INTER_AREA)
+    return cv2.resize(img, (341, 341), interpolation=cv2.INTER_AREA)
 
 def cargarImagen(url: str):
     img = cv2.imread(url, 1)
@@ -202,13 +201,14 @@ def decimar(inicio: int, fin: int, rutaO:str, rutaD:str):
 if __name__ == '__main__':
     link = 'https://thispersondoesnotexist.com/image'
     #os.chdir(os.path.join(os.getcwd(), 'imagenesHR'))
-    rutaHR = r"E:\dataset\imagenesHR"
-    rutaLR = r"E:\dataset\imagenesLR2"
-    inicio=21000
+    rutaHR = r"C:\Users\Estudiante\Documents\dataset\groundTruth"
+    rutaLR = r"C:\Users\Estudiante\Documents\dataset\decimadasX3"
+
+    inicio=100
     fin=22000
 
-    descargarImagenes(inicio,fin,link,rutaHR)
-    reemplazarDuplicados(inicio, fin, link, "rostroHR", rutaHR)
+    #descargarImagenes(inicio,fin,link,rutaHR)
+    #reemplazarDuplicados(inicio, fin, link, "rostroHR", rutaHR)
     decimar(inicio,fin,rutaHR,rutaLR)
 
 
@@ -241,12 +241,12 @@ if __name__ == '__main__':
 
 
     #img =getImagen(link)
-    descargarImagen("prueba",link,r'C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesHR')
-    img=cv2.imread(r"C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesHR\prueba.png", 1)
-    print(psnr(img, img))
+    #descargarImagen("prueba",link,r'C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesHR')
+    #img=cv2.imread(r"C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesHR\prueba.png", 1)
+    #print(psnr(img, img))
 
-    cv2.imwrite(r'C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesLR\prueba.png', img)
+    #cv2.imwrite(r'C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesLR\prueba.png', img)
 
-    imgpRUEBA = cv2.imread(r"C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesLR\prueba.png", 1)
-    print(psnr(img, imgpRUEBA))
+    #imgpRUEBA = cv2.imread(r"C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesLR\prueba.png", 1)
+    #print(psnr(img, imgpRUEBA))
 

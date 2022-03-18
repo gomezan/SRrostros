@@ -38,6 +38,8 @@ def train(args):
 
     h5_file.close()
 
+
+
 #decima cada imagen la carpeta, la almacena en formato Y, asigna un indice y almacena la información
 def eval(args):
     h5_file = h5py.File(args.output_path, 'w')

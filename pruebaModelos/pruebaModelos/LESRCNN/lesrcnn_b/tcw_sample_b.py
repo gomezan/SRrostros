@@ -133,22 +133,29 @@ def sample(net, device, dataset, cfg):
             print(h_chop)
             print(w_chop)
 
-            print(type(lr[:, 0:h_chop, 0:w_chop]))
 
             lr_patch = torch.tensor((4, 3, h_chop, w_chop), dtype=torch.float)
 
-            lr_patch[0].copy_(lr[:, 0:h_chop, 0:w_chop])
-            lr_patch[1].copy_(lr[:, 0:h_chop, w-w_chop:w])
-            lr_patch[2].copy_(lr[:, h-h_chop:h, 0:w_chop])
-            lr_patch[3].copy_(lr[:, h-h_chop:h, w-w_chop:w])
+            t1=lr[:, 0:h_chop, 0:w_chop].unsqueeze(dim = 0)
+            t2=lr[:, 0:h_chop, w - w_chop:w].unsqueeze(dim = 0)
+            t3=lr[:, h - h_chop:h, 0:w_chop].unsqueeze(dim = 0)
+            t4=lr[:, h - h_chop:h, w - w_chop:w].unsqueeze(dim = 0)
+            x=torch.cat((t1,t2,t3,t4), dim=0)
+            print(x.shape)
+
+            lr_patch=x
             lr_patch = lr_patch.to(device)
             
-            #sr = net(lr_patch, cfg.scale).detach()
+            sr = net(lr_patch, cfg.scale).detach()
             
             h, h_half, h_chop = h*scale, h_half*scale, h_chop*scale
             w, w_half, w_chop = w*scale, w_half*scale, w_chop*scale
 
             result = torch.tensor((3, h, w), dtype=torch.float).to(device)
+
+            t1=sr[0, :, 0:h_half, 0:w_half]
+            print(t1.shape)
+
             result[:, 0:h_half, 0:w_half].copy_(sr[0, :, 0:h_half, 0:w_half])
             result[:, 0:h_half, w_half:w].copy_(sr[1, :, 0:h_half, w_chop-w+w_half:w_chop])
             result[:, h_half:h, 0:w_half].copy_(sr[2, :, h_chop-h+h_half:h_chop, 0:w_half])

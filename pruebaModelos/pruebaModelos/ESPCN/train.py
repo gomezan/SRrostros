@@ -15,17 +15,18 @@ from pruebaModelos.ESPCN.utils import AverageMeter, calc_psnr
 
 
 if __name__ == '__main__':
-    eval = r"C:\Users\Estudiante\Documents\dataset\prueba\eval.h5"
-    train= r"C:\Users\Estudiante\Documents\dataset\prueba\train.h5"
-    final = r"C:\Users\Estudiante\Documents\dataset\prueba\prueba"
-    pesos = r"C:\Users\Estudiante\Documents\dataset\prueba\espcn_x3.pth"
+    #eval = r"C:\Users\Estudiante\Documents\dataset\prueba\train.h5"
+    eval=r"/HDDmedia/supermri/train.h5"
+    train=r"/HDDmedia/supermri/train.h5"
+    final = r"/HDDmedia/supermri/"
+    pesos = r"/HDDmedia/supermri/espcn_x3.pth"
     parser = argparse.ArgumentParser()
     parser.add_argument('--train-file', type=str, default=train)
     parser.add_argument('--eval-file', type=str, default=eval)
     parser.add_argument('--outputs-dir', type=str,default=final)
     parser.add_argument('--weights-file', type=str, default=pesos)
 
-    parser.add_argument('--scale', type=int, default=3)
+    parser.add_argument('--scale', type=int, default=2)
     parser.add_argument('--lr', type=float, default=1e-3)
     parser.add_argument('--batch-size', type=int, default=16)
     parser.add_argument('--num-epochs', type=int, default=200)
@@ -41,13 +42,17 @@ if __name__ == '__main__':
 
     #configura dispotisitvo
     cudnn.benchmark = True
-    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda:4' if torch.cuda.is_available() else 'cpu')
+    print(device)
 
     #asigna semilla
     torch.manual_seed(args.seed)
 
     #crea modelo
     model = ESPCN(scale_factor=args.scale).to(device)
+    #model = nn.DataParallel(model, device_ids=[1, 3])
+    #model.to(device)
+
     criterion = nn.MSELoss()
     optimizer = optim.Adam([
         {'params': model.first_part.parameters()},
