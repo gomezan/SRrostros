@@ -44,7 +44,7 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -105,6 +105,12 @@
       <workItem from="1647475498024" duration="6313000" />
       <workItem from="1647545699582" duration="9367000" />
       <workItem from="1647618561263" duration="7000" />
+      <workItem from="1647718862395" duration="26000" />
+      <workItem from="1647880933348" duration="8121000" />
+      <workItem from="1647985991764" duration="1298000" />
+      <workItem from="1648402246911" duration="614000" />
+      <workItem from="1648569263836" duration="1749000" />
+      <workItem from="1648596602899" duration="616000" />
     </task>
     <servers />
   </component>
@@ -112,6 +118,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pruebaModelos$main.coverage" NAME="main Coverage Results" MODIFIED="1647616508961" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pruebaModelos" />
+    <SUITE FILE_PATH="coverage/pruebaModelos$main.coverage" NAME="main Coverage Results" MODIFIED="1647886231333" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pruebaModelos" />
   </component>
 </project>

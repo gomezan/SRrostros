@@ -16,10 +16,10 @@ from pruebaModelos.ESPCN.utils import AverageMeter, calc_psnr
 
 if __name__ == '__main__':
     #eval = r"C:\Users\Estudiante\Documents\dataset\prueba\train.h5"
-    eval=r"/HDDmedia/supermri/train.h5"
-    train=r"/HDDmedia/supermri/train.h5"
-    final = r"/HDDmedia/supermri/"
-    pesos = r"/HDDmedia/supermri/espcn_x3.pth"
+    eval=r"C:\Users\Estudiante\Documents\dataset\prueba/eval.h5"
+    train=r"C:\Users\Estudiante\Documents\dataset\prueba/train.h5"
+    final = r"C:\Users\Estudiante\Documents\dataset\prueba\entrenamiento1"
+    pesos = r"C:\Users\Estudiante\Documents\dataset\prueba/espcn_x3.pth"
     parser = argparse.ArgumentParser()
     parser.add_argument('--train-file', type=str, default=train)
     parser.add_argument('--eval-file', type=str, default=eval)
@@ -130,3 +130,6 @@ if __name__ == '__main__':
 
     print('best epoch: {}, psnr: {:.2f}'.format(best_epoch, best_psnr))
     torch.save(best_weights, os.path.join(args.outputs_dir, 'best.pth'))
+
+
+
