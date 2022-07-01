@@ -8,8 +8,8 @@ import cv2
 
 from skimage import  measure
 
-from ESPCN.models import ESPCN
-from ESPCN.utils import convert_ycbcr_to_rgb, preprocess, preprocessRGB
+from pruebaModelos.ESPCN.models import ESPCN
+from pruebaModelos.ESPCN.utils import convert_ycbcr_to_rgb, preprocess, preprocessRGB
 
 
 def signaltonoise(a, axis=0, ddof=0):

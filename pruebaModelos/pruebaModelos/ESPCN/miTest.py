@@ -7,8 +7,8 @@ import cv2
 from skimage.metrics import structural_similarity as ssim
 from skimage.metrics import peak_signal_noise_ratio as psnr
 
-from  ESPCN.models import ESPCN
-from ESPCN.utils import convert_ycbcr_to_rgb, preprocess, preprocessRGB
+from  pruebaModelos.ESPCN.models import ESPCN
+from pruebaModelos.ESPCN.utils import convert_ycbcr_to_rgb, preprocess, preprocessRGB
 
 
 def graficarImagen(img, window_name: str):
