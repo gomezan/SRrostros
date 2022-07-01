@@ -10,7 +10,8 @@ from pruebaModelos.ESPCN.utils import convert_ycbcr_to_rgb, preprocess, calc_psn
 
 
 if __name__ == '__main__':
-    weight = r"C:\Users\Estudiante\Documents\dataset\prueba\rostros1.pth"
+    #weight = r"C:\Users\Estudiante\Documents\dataset\prueba\rostros1.pth"
+    weight = r"C:\Users\Estudiante\Documents\dataset\prueba\espcn_x2Tiny.pth"
     imagen = r"C:\Users\Estudiante\Documents\dataset\imagenesHR\rostroHR0.png"
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights-file', type=str, default=weight)
@@ -27,10 +28,16 @@ if __name__ == '__main__':
 
     #subida de pesos
     state_dict = model.state_dict()
+
+    print(state_dict.keys())
+
     for n, p in torch.load(args.weights_file, map_location=lambda storage, loc: storage).items():
-        if n in state_dict.keys():
-            state_dict[n].copy_(p)
+        if n[7:] in state_dict.keys():
+            state_dict[n[7:]].copy_(p)
+            print(n)
         else:
+            print(n[7:])
+            print(type(n))
             raise KeyError(n)
 
     #switch evaluacion/ejecucion

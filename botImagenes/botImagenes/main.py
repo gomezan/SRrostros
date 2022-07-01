@@ -63,7 +63,7 @@ def graficarImagen(img, window_name: str):
     cv2.destroyAllWindows()
 
 def procesarImagen(img):
-    return cv2.resize(img, (341, 341), interpolation=cv2.INTER_AREA)
+    return cv2.resize(img, (128, 128), interpolation=cv2.INTER_AREA)
 
 def cargarImagen(url: str):
     img = cv2.imread(url, 1)
@@ -79,20 +79,20 @@ def pillowToNumpy(img):
     return cv2.cvtColor(almohadaNp, cv2.COLOR_RGB2BGR)
 
 def generadorDecimador(ruta:str, indicativo : int, pos: str):
-    direccion=ruta+str(indicativo)+".jfif"
+    direccion=ruta+str(indicativo)+".png"
     rutaCompleta=pos+"/"+direccion
 
     # imagen opencv
     img=cargarImagen(rutaCompleta)
-    cv = cv2.resize(img, (256, 256), interpolation=cv2.INTER_AREA)
+    cv = cv2.resize(img, (512, 512), interpolation=cv2.INTER_AREA)
     # imagen tensor flow
     image_open = open(rutaCompleta, 'rb')
     read_image = image_open.read()
     image_decode = tf.image.decode_jpeg(read_image)
-    tensor = tf.image.resize(image_decode, (256, 256), method='area')
+    tensor = tf.image.resize(image_decode, (512, 512), method='area')
     # imagen pillow
-    with Image.open(direccion) as im:
-        almohada = im.resize((256, 256), Image.BOX)
+    with Image.open(rutaCompleta) as im:
+        almohada = im.resize((512, 512), Image.BOX)
 
     return cv,tensor,almohada
 
@@ -148,21 +148,35 @@ def pruebas(inicio:int, fin:int, url: str, nombre:str):
         tensorListSSIM.append(ssimTensor)
         pillowListSSIM.append(ssimPillow)
 
-        """
-                print("El SSIM de opencv es ", ssimCv2)
-                print("El SSIM de tensorflow es ", ssimTensor)
-                print("El SSIM de pillow es ", ssimPillow)
-                print("El psnr de opencv es ", psnrCv2)
-                print("El psnr de tensorflow es ", psnrTensor)
-                print("El psnr de pillow es ", psnrPillow)
-                """
 
-    print("El SSIM de opencv es ", np.mean(np.array(cvListSSIM)))
-    print("El SSIM de tensorflow es ", np.mean(np.array(tensorListSSIM)))
-    print("El SSIM de pillow es ", np.mean(np.array(pillowListSSIM)))
-    print("El psnr de opencv es ", np.mean(np.array(cvListPSNR)))
-    print("El psnr de tensorflow es ", np.mean(np.array(tensorListPSNR)))
-    print("El psnr de pillow es ", np.mean(np.array(pillowListPSNR)))
+        print("El SSIM de opencv es ", ssimCv2)
+        print("El SSIM de tensorflow es ", ssimTensor)
+        print("El SSIM de pillow es ", ssimPillow)
+        print("El psnr de opencv es ", psnrCv2)
+        print("El psnr de tensorflow es ", psnrTensor)
+        print("El psnr de pillow es ", psnrPillow)
+                
+
+    cvarrSSIM=np.array(cvListSSIM)
+    tsarrSSIM=np.array(tensorListSSIM)
+    pllarrSSIM=np.array(pillowListSSIM)
+    cvarrPSNR=np.array(cvListPSNR)
+    tsarrPSNR=np.array(tensorListPSNR)
+    pllarrPSNR=np.array(pillowListPSNR)
+
+    np.save("opencvPSNR.npy", cvarrPSNR)
+    np.save("tensorPSNR.npy", tsarrPSNR)
+    np.save("pillowPSNR.npy", pllarrPSNR)
+    np.save("opencvSSIM.npy",  cvarrSSIM)
+    np.save("tensorSSIM.npy", tsarrSSIM)
+    np.save("pillowSSIM.npy", pllarrSSIM)
+
+    print("El SSIM de opencv es ", np.mean(cvarrSSIM))
+    print("El SSIM de tensorflow es ", np.mean(tsarrSSIM))
+    print("El SSIM de pillow es ", np.mean(pllarrSSIM))
+    print("El psnr de opencv es ", np.mean(cvarrPSNR))
+    print("El psnr de tensorflow es ", np.mean(tsarrPSNR))
+    print("El psnr de pillow es ", np.mean(pllarrPSNR))
 
 def comparadorImagenes(im1, im2):
     comparacion = np.equal(im1, im2)
@@ -201,52 +215,58 @@ def decimar(inicio: int, fin: int, rutaO:str, rutaD:str):
 if __name__ == '__main__':
     link = 'https://thispersondoesnotexist.com/image'
     #os.chdir(os.path.join(os.getcwd(), 'imagenesHR'))
-    rutaHR = r"C:\Users\Estudiante\Documents\dataset\groundTruth"
-    rutaLR = r"C:\Users\Estudiante\Documents\dataset\decimadasX3"
+    rutaHR = r"C:\Users\Estudiante\Documents\dataset\groundTruth\eval"
+    rutaLR = r"C:\Users\Estudiante\Documents\dataset\decimadasX8\eval"
 
-    inicio=100
+    inicio=16500
     fin=22000
+    cargar=True
+    escala=8
 
+    #pruebas(inicio, fin, rutaHR ,"rostroHR")
     #descargarImagenes(inicio,fin,link,rutaHR)
     #reemplazarDuplicados(inicio, fin, link, "rostroHR", rutaHR)
-    decimar(inicio,fin,rutaHR,rutaLR)
+    #decimar(inicio,fin,rutaHR,rutaLR)
+
+if (cargar):
+
+    opencvPSNR=np.load(r"C:\Users\Estudiante\Documents\dataset\resultados\librerias\opencvPSNR.npy")
+    tensorPSNR=np.load(r"C:\Users\Estudiante\Documents\dataset\resultados\librerias\tensorPSNR.npy")
+    pillowPSNR = np.load(r"C:\Users\Estudiante\Documents\dataset\resultados\librerias\pillowPSNR.npy")
+    opencvSSIM=np.load(r"C:\Users\Estudiante\Documents\dataset\resultados\librerias\opencvSSIM.npy")
+    tensorSSIM=np.load(r"C:\Users\Estudiante\Documents\dataset\resultados\librerias\tensorSSIM.npy")
+    pillowSSIM = np.load(r"C:\Users\Estudiante\Documents\dataset\resultados\librerias\pillowSSIM.npy")
+
+
+    print("OpenCV ")
+    print("*************** PSNR *************** SSIM")
+    print("promedio ", opencvPSNR.mean(), "  ", opencvSSIM.mean())
+    print("std ", np.std(opencvPSNR), "  ", np.std(opencvSSIM))
+    print("mediana ", np.median(opencvPSNR), "  ", np.median(opencvSSIM))
+    print("minimo ", np.amin(opencvPSNR), "  ", np.amin(opencvSSIM))
+    print("maximo ", np.amax(opencvPSNR), "  ", np.amax(opencvSSIM))
+    print("***")
+
+    print("tensorflow ")
+    print("*************** PSNR *************** SSIM")
+    print("promedio ", tensorPSNR.mean(), "  ", tensorSSIM.mean())
+    print("std ", np.std(tensorPSNR), "  ", np.std(tensorSSIM))
+    print("mediana ", np.median(tensorPSNR), "  ", np.median(tensorSSIM))
+    print("minimo ", np.amin(tensorPSNR), "  ", np.amin(tensorSSIM))
+    print("maximo ", np.amax(tensorPSNR), "  ", np.amax(tensorSSIM))
+    print("***")
+
+    print("pillow ")
+    print("*************** PSNR *************** SSIM")
+    print("promedio ", pillowPSNR.mean(), "  ", pillowSSIM.mean())
+    print("std ", np.std(pillowPSNR), "  ", np.std(pillowSSIM))
+    print("mediana ", np.median(pillowPSNR), "  ", np.median(pillowSSIM))
+    print("minimo ", np.amin(pillowPSNR), "  ", np.amin(pillowSSIM))
+    print("maximo ", np.amax(pillowPSNR), "  ", np.amax(pillowSSIM))
+    print("***")
 
 
 
 
-    #caso opencv
-    #img=cargarImagenIndice("rostroHR",0,rutaHR)
-    #imgLow=procesarImagen(img)
 
-
-    #almacenarImagen(imgLow,"rostroLR",0,rutaLR)
-    #guardarImagen(imgLow)
-
-    #bgr=cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-    #imPrueba = Image.fromarray(img)
-
-    #imgPrueba = cargarImagenIndice("rostroLR", 0, rutaLR)
-
-
-
-
-    #im1 = Image.open(r"C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesHR\rostroHR0.jfif")
-    # save a image using extension
-    #print(type(im1))
-    #im1 = im1.save("prueba.jfif")
-
-
-    #https://blog.zuru.tech/machine-learning/2021/08/09/the-dangers-behind-image-resizing
-    #pruebas(0,10, ruta, "rostroHR")
-
-
-    #img =getImagen(link)
-    #descargarImagen("prueba",link,r'C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesHR')
-    #img=cv2.imread(r"C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesHR\prueba.png", 1)
-    #print(psnr(img, img))
-
-    #cv2.imwrite(r'C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesLR\prueba.png', img)
-
-    #imgpRUEBA = cv2.imread(r"C:\Users\Guatavita\PycharmProjects\botImagenes\imagenesLR\prueba.png", 1)
-    #print(psnr(img, imgpRUEBA))
 

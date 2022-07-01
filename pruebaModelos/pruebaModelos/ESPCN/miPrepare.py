@@ -18,7 +18,7 @@ def train(args):
     NoImg=len(gtGlob)
     sizeLR=args.patch_size
     sizeHR=args.patch_size * args.scale
-    noTrozos=len(range(0, 512 - args.patch_size + 1, args.stride))
+    noTrozos=len(range(0, 204 - args.patch_size + 1, args.stride))
     total = NoImg * noTrozos*noTrozos
 
     dataLr = h5_file.create_dataset('lr', (total, sizeLR, sizeLR))
@@ -35,8 +35,8 @@ def train(args):
 
         for i,k in  zip(range(0, lr.shape[0] - args.patch_size + 1, args.stride),range(0,noTrozos)):
             for j,l in zip(range(0, lr.shape[1] - args.patch_size + 1, args.stride),range(0,noTrozos)):
-                pos=index*1521+k*39+l
-                print("se esta desarrollando la imagen : ", pos)
+                pos=index*noTrozos*noTrozos+k*noTrozos+l
+                print("en train se esta desarrollando la imagen : ", pos)
                 dataLr[pos]=lr[i:i + args.patch_size, j:j + args.patch_size]
                 dataHr[pos]=hr[i * args.scale:i * args.scale + args.patch_size * args.scale, j * args.scale:j * args.scale + args.patch_size * args.scale]
 
@@ -48,8 +48,8 @@ def eval(args):
 
     print("finalmente se prepara eval")
     origenGT = r"C:\Users\Estudiante\Documents\dataset\groundTruth\eval"
-    origenX2 = r"C:\Users\Estudiante\Documents\dataset\decimadasX2\eval"
-    destino = r"C:\Users\Estudiante\Documents\dataset\prueba\eval.h5"
+    origenX2 = r"C:\Users\Estudiante\Documents\dataset\decimadasX8\eval"
+    destino = r"C:\Users\Estudiante\Documents\dataset\prueba\evalx8.h5"
 
     h5_file = h5py.File(destino, 'w')
 
@@ -62,6 +62,7 @@ def eval(args):
     NoImg = len(gtGlob)
 
     for index, image_gt, image_s in zip(range(0, NoImg), gtGlob, sGlob):
+        print("en eval se esta desarrollando la imagen : ", image_gt)
         hr = cv2.imread(image_gt, 1)
         lr = cv2.imread(image_s, 1)
         hr=np.float32(hr)
@@ -77,19 +78,19 @@ def eval(args):
 
 if __name__ == '__main__':
     origenGT = r"C:\Users\Estudiante\Documents\dataset\groundTruth\train"
-    origenX2 = r"C:\Users\Estudiante\Documents\dataset\decimadasX2\train"
+    origenX2 = r"C:\Users\Estudiante\Documents\dataset\decimadasX8\train"
     #origenX3 = r"C:\Users\Estudiante\Documents\dataset\decimadasX3"
 
     #origenGT = r"C:\Users\Estudiante\Documents\dataset\pequenoGT\eval"
     #origenX2 = r"C:\Users\Estudiante\Documents\dataset\pequenoX2\eval"
 
-    destino = r"C:\Users\Estudiante\Documents\dataset\prueba\train.h5"
+    destino = r"C:\Users\Estudiante\Documents\dataset\prueba\trainx8.h5"
     #destino= r"C:\Users\Estudiante\Documents\dataset\prueba\eval.h5"
     parser = argparse.ArgumentParser()
     parser.add_argument('--images-dir', type=str, default=origenGT)
     parser.add_argument('--images-pro', type=str, default=origenX2)
     parser.add_argument('--output-path', type=str, default=destino)
-    parser.add_argument('--scale', type=int, default=2)
+    parser.add_argument('--scale', type=int, default=8)
     parser.add_argument('--patch-size', type=int, default=17)
     parser.add_argument('--stride', type=int, default=13)
     parser.add_argument('--eval', action='store_true')

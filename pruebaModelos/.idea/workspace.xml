@@ -10,6 +10,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -111,6 +118,35 @@
       <workItem from="1648402246911" duration="614000" />
       <workItem from="1648569263836" duration="1749000" />
       <workItem from="1648596602899" duration="616000" />
+      <workItem from="1648779270015" duration="4134000" />
+      <workItem from="1648825428420" duration="3283000" />
+      <workItem from="1649114974387" duration="1209000" />
+      <workItem from="1649197791723" duration="8826000" />
+      <workItem from="1649429820262" duration="3693000" />
+      <workItem from="1649433699536" duration="12000" />
+      <workItem from="1649435866724" duration="633000" />
+      <workItem from="1649689555567" duration="115000" />
+      <workItem from="1649690064428" duration="3467000" />
+      <workItem from="1650389058254" duration="7977000" />
+      <workItem from="1650487860410" duration="3136000" />
+      <workItem from="1650589553370" duration="8017000" />
+      <workItem from="1650927901235" duration="54000" />
+      <workItem from="1650928449638" duration="105000" />
+      <workItem from="1650941084786" duration="1144000" />
+      <workItem from="1651073654743" duration="6252000" />
+      <workItem from="1651714864974" duration="11546000" />
+      <workItem from="1652022066748" duration="1448000" />
+      <workItem from="1652142059543" duration="41000" />
+      <workItem from="1652317615314" duration="174000" />
+      <workItem from="1654614347864" duration="9929000" />
+      <workItem from="1654788352295" duration="18027000" />
+      <workItem from="1655221568246" duration="5814000" />
+      <workItem from="1655397730003" duration="12039000" />
+      <workItem from="1655656943837" duration="1911000" />
+      <workItem from="1655829101937" duration="3946000" />
+      <workItem from="1655858793228" duration="444000" />
+      <workItem from="1655944713245" duration="712000" />
+      <workItem from="1656032213217" duration="858000" />
     </task>
     <servers />
   </component>
@@ -118,6 +154,6 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pruebaModelos$main.coverage" NAME="main Coverage Results" MODIFIED="1647886231333" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pruebaModelos" />
+    <SUITE FILE_PATH="coverage/pruebaModelos$main.coverage" NAME="main Coverage Results" MODIFIED="1656032956705" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pruebaModelos" />
   </component>
 </project>

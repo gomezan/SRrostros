@@ -57,6 +57,16 @@ def preprocess(img, device):
     return x, ycbcr
 
 
+def preprocessRGB(img, device):
+    x = np.array(img).astype(np.float32)
+    x /= 255.
+    x = torch.from_numpy(x).to(device)
+    x = x.unsqueeze(0).unsqueeze(0)
+    return x
+
+
+
+
 def calc_psnr(img1, img2):
     return 10. * torch.log10(1. / torch.mean((img1 - img2) ** 2))
 
