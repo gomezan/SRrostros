@@ -20,7 +20,7 @@ if __name__ == '__main__':
     graficador=r"C:\Users\Estudiante\Documents\GitHub\SRrostros\pruebaModelos\pruebaModelos\ESPCN\graficador.py"
 
     # param
-    archivoExec = other
+    archivoExec = myTest
     source_code = open(archivoExec).read()
     sys.argv = [archivoExec]
     exec(source_code)

@@ -10,6 +10,7 @@ from skimage.metrics import peak_signal_noise_ratio as psnr
 from  pruebaModelos.ESPCN.models import ESPCN
 from pruebaModelos.ESPCN.utils import convert_ycbcr_to_rgb, preprocess, preprocessRGB
 
+import glob
 
 def graficarImagen(img, window_name: str):
     cv2.imshow(window_name, img)
@@ -31,7 +32,12 @@ pesos = {
 
 if __name__ == '__main__':
 
+    #esto
     escala=8
+    comp=sorted(glob.glob(r"C:\Users\Estudiante\Documents\GitHub\SRrostros\miniConjunto\decimadas_x"+str(escala)+r"\eval\*.png"))
+    ground=sorted(glob.glob(r"C:\Users\Estudiante\Documents\GitHub\SRrostros\miniConjunto\ground truth\eval\*.png"))
+
+    #escala=2
     imagen = r"C:\Users\Estudiante\Documents\dataset\decimadasX"+str(escala)+r"\eval\rostroLR16858.png"
     gt=r"C:\Users\Estudiante\Documents\dataset\groundTruth\eval\rostroHR16858.png"
 
@@ -62,50 +68,60 @@ if __name__ == '__main__':
     #switch evaluacion/ejecucion
     model.eval()
 
-    #subir imagen ground truth y homologo de menor resolucion
-    hr = cv2.imread(args.image_gt, 1)
-    lr = cv2.imread(args.image_file, 1)
+    #esto
+    for imagen, gt in zip(comp, ground):
 
-    #obtener tamaño)
-    image_width = lr.shape[0]
-    image_height = lr.shape[1]
+        #esto
+        red=gt.split(r"\r")
+        name=red[-1]
 
-    #obtener imagen de lanczos a partir de la iamgen escalada
-    lanczos =cv2.resize(lr, (image_width * args.scale, image_height * args.scale), interpolation=cv2.INTER_LANCZOS4)
-    #graficarImagen(lanczos, args.image_file.replace('.', '_lanczos_x{}.'.format(args.scale)) )
+        #esto solo modificar
+        #subir imagen ground truth y homologo de menor resolucion
+        hr = cv2.imread(gt, 1)
+        lr = cv2.imread(imagen, 1)
+
+        #obtener tamaño)
+        image_width = lr.shape[0]
+        image_height = lr.shape[1]
+
+        #obtener imagen de lanczos a partir de la iamgen escalada
+        lanczos =cv2.resize(lr, (image_width * args.scale, image_height * args.scale), interpolation=cv2.INTER_LANCZOS4)
+        #graficarImagen(lanczos, args.image_file.replace('.', '_lanczos_x{}.'.format(args.scale)) )
 
 
-    print("Este experimento solo tiene en cuenta la componente Y")
+        print("Este experimento solo tiene en cuenta la componente Y")
 
-    #obtiene las imagenes normalizadas y el ycbcr de la imagen interpolada por lanczos;  transfiere a device
-    lrPrep, _ = preprocess(lr, device)
-    _, ycbcr = preprocess(lanczos, device)
+        #obtiene las imagenes normalizadas y el ycbcr de la imagen interpolada por lanczos;  transfiere a device
+        lrPrep, _ = preprocess(lr, device)
+        _, ycbcr = preprocess(lanczos, device)
 
-    #apaga gradiente y filtra valores entre 0 y 1
-    with torch.no_grad():
-        preds = model(lrPrep).clamp(0.0, 1.0)
+        #apaga gradiente y filtra valores entre 0 y 1
+        with torch.no_grad():
+            preds = model(lrPrep).clamp(0.0, 1.0)
 
-    #trata la imagen
-        #desnormaliza
-        #quita dimensiones
-    preds = preds.mul(255.0).cpu().numpy().squeeze(0).squeeze(0)
+        #trata la imagen
+            #desnormaliza
+            #quita dimensiones
+        preds = preds.mul(255.0).cpu().numpy().squeeze(0).squeeze(0)
 
-    #???? axes
-    output = np.array([preds, ycbcr[..., 1], ycbcr[..., 2]]).transpose([1, 2, 0])
-    #Clip y converion RGB
-    output = np.clip(convert_ycbcr_to_rgb(output), 0.0, 255.0).astype(np.uint8)
-    #graficarImagen(output, "solo componente Y")
-    cv2.imwrite("imagenPaperY"+str(args.scale)+".png", output)
+        # axes
+        output = np.array([preds, ycbcr[..., 1], ycbcr[..., 2]]).transpose([1, 2, 0])
+        #Clip y converion RGB
+        output = np.clip(convert_ycbcr_to_rgb(output), 0.0, 255.0).astype(np.uint8)
+        #graficarImagen(output, "solo componente Y")
 
-    # psnr con respecto a la imagen ground truth y la predicha
-    res = psnr(hr, output)
-    print('PSNR del modelo: {:.2f}'.format(res ))
-    res = psnr(hr, lanczos)
-    print('PSNR de lanczos: {:.2f}'.format(res))
-    res = ssim(im1=hr, im2=output, channel_axis=2)
-    print('SSIM del modelo: {:.2f}'.format(res))
-    res = ssim(im1=hr, im2=lanczos, channel_axis=2)
-    print('SSIM de lanczos: {:.2f}'.format(res))
+        #esto solo modificar
+        cv2.imwrite(r"C:\Users\Estudiante\Documents\GitHub\SRrostros\miniConjunto\sr_x"+str(escala)+r"\eval\sr_r"+name+".png", output)
+
+        # psnr con respecto a la imagen ground truth y la predicha
+        res = psnr(hr, output)
+        print('PSNR del modelo: {:.2f}'.format(res ))
+        res = psnr(hr, lanczos)
+        print('PSNR de lanczos: {:.2f}'.format(res))
+        res = ssim(im1=hr, im2=output, channel_axis=2)
+        print('SSIM del modelo: {:.2f}'.format(res))
+        res = ssim(im1=hr, im2=lanczos, channel_axis=2)
+        print('SSIM de lanczos: {:.2f}'.format(res))
 
 
     #obtener imagen de comparación
