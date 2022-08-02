@@ -6,3 +6,5 @@ del proyecto.
 *pruebaModelos: Este contiene el código original de la ESPCN (https://github.com/yjn870/ESPCN-pytorch)
 más la propuesta necesaria para adecuar en el área de la vigilancia sobre rostros humanos.   
 *ESPCN: Este consta de los modulos necesarios para desplegar el modelo sobre la tarjeta de desarrollo.
+*miniConjunto: Esta carpeta contiene una versión muy reducida del conjunto de datos y los resultados en
+super resolución obtenidos.
