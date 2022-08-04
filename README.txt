@@ -8,3 +8,5 @@ más la propuesta necesaria para adecuar en el área de la vigilancia sobre rost
 *ESPCN: Este consta de los modulos necesarios para desplegar el modelo sobre la tarjeta de desarrollo.
 *miniConjunto: Esta carpeta contiene una versión muy reducida del conjunto de datos y los resultados en
 super resolución obtenidos.
+*resultados: Almacena imágenes tomadas por el sistema embebido a diferentes escalas y el resultado de 
+incrementar su resolución x2, x4 y x8.
