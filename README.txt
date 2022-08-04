@@ -1,5 +1,5 @@
 El presente repositorio busca implementar un modelo de super resolución para vigilancia
-sobre rostros humanos. Este puede dividirse en tres partes:
+sobre rostros humanos. Este puede dividirse en seis partes:
 
 *botImagenes: Contiene toda la lógica que permite construir el conjunto de datos 
 del proyecto.
@@ -10,3 +10,4 @@ más la propuesta necesaria para adecuar en el área de la vigilancia sobre rost
 super resolución obtenidos.
 *resultados: Almacena imágenes tomadas por el sistema embebido a diferentes escalas y el resultado de 
 incrementar su resolución x2, x4 y x8.
+*Texto original: Carpeta que contiene el documento de trabajo de grado final detrás del proyecto.
