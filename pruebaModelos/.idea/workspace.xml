@@ -46,7 +46,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/pruebaModelos/ESPCN" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/pruebaModelos/ESPCN/miPropuesta" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -56,6 +56,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Estudiante\Documents\GitHub\SRrostros\pruebaModelos\pruebaModelos\ESPCN" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Estudiante\Documents\GitHub\SRrostros\pruebaModelos\pruebaModelos\ESPCN\miPropuesta" />
     </key>
   </component>
   <component name="RunManager">
@@ -149,6 +152,7 @@
       <workItem from="1656032213217" duration="858000" />
       <workItem from="1656637013774" duration="146000" />
       <workItem from="1659453854509" duration="5090000" />
+      <workItem from="1659710609419" duration="4987000" />
     </task>
     <servers />
   </component>
