@@ -56,6 +56,7 @@ def preprocess(img, device):
     x = x.unsqueeze(0).unsqueeze(0)
     return x, ycbcr
 
+#Posprocesamiento de imagenes Y
 def posprocess(y,cb,cr):
     pos = y.mul(255.0).cpu().numpy().squeeze(0).squeeze(0)
                
@@ -65,7 +66,7 @@ def posprocess(y,cb,cr):
     frame = np.clip(convert_ycbcr_to_rgb(output), 0.0, 255.0).astype(np.uint8)
     return frame
 
-
+#Preprocesamiento de imagenes RGB
 def preprocessRGB(img, device):
     x = np.array(img).astype(np.float32)
     x /= 255.
@@ -73,6 +74,7 @@ def preprocessRGB(img, device):
     x = x.unsqueeze(0).unsqueeze(0)
     return x
 
+#Posprocesamiento de imagenes RGB
 def posprocessRGB(r,g,b):
     posR = r.mul(255.0).cpu().numpy().squeeze(0).squeeze(0)
     posG = g.mul(255.0).cpu().numpy().squeeze(0).squeeze(0)

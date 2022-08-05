@@ -3,7 +3,7 @@ import torch
 import torch.backends.cudnn as cudnn
 from models import ESPCN
 
-
+#Permite cargar los pesos de un archivo determinado a el modelo de entrada
 def cargarPesos(weight,model):
     state_dict = model.state_dict()
     for n, p in torch.load(weight, map_location=lambda storage, loc: storage).items():
@@ -12,10 +12,12 @@ def cargarPesos(weight,model):
         else:
             raise KeyError(n)
 
+#Permite instanciar el modelo dada la escala de entrada
 def ajusteModelo(escala):
 
     print("Configurando red")
-    
+
+    #Ruta del archivo de los pesos
     weights = r"/home/nvidia/Documentos/ESPCN/pesos/espcn_x"+str(escala)+".pth"
 
     #verificacion GPU

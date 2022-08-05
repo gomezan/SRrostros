@@ -5,7 +5,8 @@ import numpy as np
 from math import floor
 from math import ceil
 
-
+#Calcula el incremento necesario de acuerdo a una imagen de entrada
+#imagenes más grandes requieren mayor incremento que imágenes más pequeñas
 def calcularIncremento(size):
     return int(size/16)
 
@@ -102,7 +103,7 @@ def rectificador(ci,ctam,cf,maxTam):
 	
 	return Nci,Nctam,Ncf
  
- 
+#Función prinicpal que contiene todos los métodos para configurar el ROI
 def ajustarRecorte(roi,imageSizex,imageSizey):
  
  	#pos iniciales
@@ -124,7 +125,7 @@ def ajustarRecorte(roi,imageSizex,imageSizey):
     #print ("antes0", cx,", ",cu,", ",cy,", ",cv,", ",cw,", ",ch)
   
   
-    #Incremento en todas las direcciones
+    #Incremento en la dirección y
     inc=calcularIncremento(imageSizex)
     #print(inc)
     cy,ch,cv=ajusteConstante(cy,ch,cv,inc)

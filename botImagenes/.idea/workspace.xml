@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f2b2a8d-b59a-4fbe-bd3e-e94802c46a86" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/botImagenes/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/botImagenes/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="3f2b2a8d-b59a-4fbe-bd3e-e94802c46a86" name="Changes" comment="Changes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,7 +26,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ESPCN" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -85,7 +82,7 @@
       <workItem from="1650927957240" duration="2454000" />
       <workItem from="1651108792329" duration="299000" />
       <workItem from="1651760559097" duration="1831000" />
-      <workItem from="1659668418272" duration="1783000" />
+      <workItem from="1659668418272" duration="1871000" />
     </task>
     <servers />
   </component>

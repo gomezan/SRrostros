@@ -1,7 +1,7 @@
 import math
 from torch import nn
 
-
+#Clase de la red ESPCN  del repositorio original
 class ESPCN(nn.Module):
     def __init__(self, scale_factor, num_channels=1):
         super(ESPCN, self).__init__()
@@ -18,6 +18,7 @@ class ESPCN(nn.Module):
 
         self._initialize_weights()
 
+    #Permite inicializar los pesos de la red para su posterior entrenamiento
     def _initialize_weights(self):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -28,6 +29,7 @@ class ESPCN(nn.Module):
                     nn.init.normal_(m.weight.data, mean=0.0, std=math.sqrt(2/(m.out_channels*m.weight.data[0][0].numel())))
                     nn.init.zeros_(m.bias.data)
 
+    #Permite la propagación hacia adelante de la red.
     def forward(self, x):
         x = self.first_part(x)
         x = self.last_part(x)

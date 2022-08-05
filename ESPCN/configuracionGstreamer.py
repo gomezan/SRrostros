@@ -1,6 +1,8 @@
 
 import cv2
 
+
+#Daddas los atributos de entrada se crea un string que contiene la configuración del pipeline de la libreria gstreamer
 def ajustePipeline(
     sensor_id=0,
     capture_width=512,

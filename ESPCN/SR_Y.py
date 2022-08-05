@@ -11,13 +11,14 @@ from configuracionModelo import ajusteModelo
 
 from utils import preprocess, posprocess
     
-
+#Esta función envuelve el ciclo principal detrás del sistema
 def show_camera(model, device, escala):
     window_title = "Camara en super resolucion"
-    
+
+    # Se toma el tamaño del estandar y se divide por la escala
     imageSizex,imageSizey = 1280/escala , 960/escala
 
-  
+    # Se configura el pipeline que controla la comunicación de la camara fisica
     pipe=ajustePipeline( capture_width=imageSizex,
     capture_height=imageSizey,
     display_width=imageSizex,
@@ -26,7 +27,9 @@ def show_camera(model, device, escala):
     print(pipe)    
     
     #Inicializaciòn
+    # instanciación del Pipeline
     video_capture = cv2.VideoCapture(pipe, cv2.CAP_GSTREAMER)
+    # instanciación clasificador de detección de rostro
     face_cascade = cv2.CascadeClassifier('clasificadorFrontal/haarcascade_frontalface_default.xml')
     
     if video_capture.isOpened():
@@ -42,12 +45,14 @@ def show_camera(model, device, escala):
                 
                 # Si existe un rostro 
                 if (len(faces)!=0):
-                
+
+                    # Estas cuatro variables contienen el roi
                     cx,cy,cw,ch=ajustarRecorte(faces[0],imageSizex,imageSizey)
                     #cx,cy,cw,ch=faces[0]
                     
                     try:
-                
+
+                        # Descomposiicón RGB del roi
                         R=frame[...,0][cy: cy+ch, cx: cx+cw]
                         G=frame[...,1][cy: cy+ch, cx: cx+cw]
                         B=frame[...,2][cy: cy+ch, cx: cx+cw]
@@ -105,8 +110,10 @@ def show_camera(model, device, escala):
 
 if __name__ == "__main__":
 
+    # La escala es un argumento usado como entrada
 	escala=int (sys.argv[1])
-	
+
+    # Se instancia el modelo dada la instancia
 	model, device =ajusteModelo(escala)
 	
 	#Iniciar camara

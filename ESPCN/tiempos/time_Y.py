@@ -16,17 +16,20 @@ from utils import preprocess, posprocess
 
 if __name__ == "__main__":
 
+	# La escala es un argumento usado como entrada
 	escala=int (sys.argv[1])
 	
 	inicio=time.time()
 
+	# Se instancia el modelo dada la instancia
 	model, device =ajusteModelo(escala)
 
 	window_title = "Camara en super resolucion"
 
+	# Se toma el tamaño del estandar y se divide por la escala
 	imageSizex,imageSizey = 1280/escala , 960/escala
 
-
+	# Se configura el pipeline que controla la comunicación de la camara fisica
 	pipe=ajustePipeline( capture_width=imageSizex,
 	capture_height=imageSizey,
 	display_width=imageSizex,
@@ -35,7 +38,9 @@ if __name__ == "__main__":
 	print(pipe)    
 
 	#Inicializaciòn
+	# instanciación del Pipeline
 	video_capture = cv2.VideoCapture(pipe, cv2.CAP_GSTREAMER)
+	# instanciación clasificador de detección de rostro
 	face_cascade = cv2.CascadeClassifier('clasificadorFrontal/haarcascade_frontalface_default.xml')
 	
 	inicioFin=time.time()
@@ -57,9 +62,11 @@ if __name__ == "__main__":
 	
 	inicioRoi=time.time()
 
+	# Estas cuatro variables contienen el roi
 	cx,cy,cw,ch=ajustarRecorte(faces[0],imageSizex,imageSizey)
 		
 	inicioPre=inicioFin=time.time()
+	# Descomposiicón RGB del roi
 	R=frame[...,0][cy: cy+ch, cx: cx+cw]
 	G=frame[...,1][cy: cy+ch, cx: cx+cw]
 	B=frame[...,2][cy: cy+ch, cx: cx+cw]
