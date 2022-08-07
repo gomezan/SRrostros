@@ -10,18 +10,20 @@ from skimage.metrics import peak_signal_noise_ratio as psnr
 from  pruebaModelos.ESPCN.models import ESPCN
 from pruebaModelos.ESPCN.utils import convert_ycbcr_to_rgb, preprocess, preprocessRGB
 
-
+#Función que permite graficar imagen usando openCv
 def graficarImagen(img, window_name: str):
     cv2.imshow(window_name, img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+#Función que permite graficar 2 imagenes usando openCv para su compararción
 def graficarComparacion(img1, img2, window_name: str):
     concat_horizontal = cv2.hconcat([img1, img2])
     cv2.imshow(window_name, concat_horizontal)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+#Permite mapear la escala deseada con la ubicación de los archivos de pesos correspondientes
 pesos = {
         2: r"C:\Users\Estudiante\Documents\dataset\prueba\espcn_x2Full.pth",
         4: r"C:\Users\Estudiante\Documents\dataset\prueba\best0x4.pth",
@@ -29,13 +31,21 @@ pesos = {
 }
 
 
+#Este script es una variante del script test del ESPCN original
+#Es usando para realizar predicciones de super resolución de una unica imagen
+
 if __name__ == '__main__':
 
 
+    #Escala de prueba
     escala=2
+
+    #Ubicación imagen decimada
     imagen = r"C:\Users\Estudiante\Documents\dataset\decimadasX"+str(escala)+r"\eval\rostroLR16858.png"
+    # Ubicación imagen ground truth
     gt=r"C:\Users\Estudiante\Documents\dataset\groundTruth\eval\rostroHR16858.png"
 
+    #Encuentra los pesos asociados a la escala requerida
     weight = pesos[escala]
 
     parser = argparse.ArgumentParser()

@@ -5,6 +5,8 @@ import seaborn
 import pandas as pd
 import matplotlib.pyplot as plt
 
+#Este script permite graficar el resultado de las métricas
+
 #Permite relacionar el método utilizado con el nombre del array que contienen las metricas.
 psnrDic={
     "nn": "\INEARESTPSNR.npy",
@@ -53,7 +55,7 @@ snrDic={
     "rgb": r"redSNR_RGB.npy"
 }
 
-
+#Permite mapear el método con el nombre del método
 mtdName={
     "nn": "Vecinos",
     "bi2": "Bilineal",
@@ -125,7 +127,7 @@ def graficarCurva(prom):
     plt.annotate("peso escogido", (data["Epoca"][3] + 0.7, data["SSIM promedio"][3]))
     plt.show(marker="s", ms=12, markevery=[0,1])
 
-
+#Lista que contiene los métodos a graficar
 metodos=[
      "Vecinos",
      "Bilineal",
@@ -134,16 +136,19 @@ metodos=[
      "ESPCN_Y ",
     " ESPCN_RGB"]
 
+#Lista que contiene los resultados del FID por cada escala
 fidX2=[450.478,2523.689,621.101,442.130,51.528,33.959]
 fidX4=[2647.250,9295.356,5495.174,5193.589,2372.120,2121.905]
 fidX8=[3600.985, 19123.293, 15120.286, 14413.109, 8893.360, 8443.401 ]
 
+#Prepara la información para la construcción de graficas de barras
 def crearConjuntoCat(metodos,fid):
     df = pd.DataFrame()
     df['Metodos'] = metodos
     df['FID'] = fid
     return df
 
+#Se encarga de crear graficas de barras, usado para graficar el fid
 def graficarBarras(metodos,fid, nombre):
     x=crearConjuntoCat(metodos,fid)
     seaborn.catplot(x = "Metodos", y = "FID", kind = "bar", data = x, ci = 30)

@@ -12,6 +12,9 @@ from pruebaModelos.ESPCN.models import ESPCN
 from pruebaModelos.ESPCN.utils import convert_ycbcr_to_rgb, preprocess, preprocessRGB
 
 
+#Este script permite calcular y almacenar los resultados del psnr y ssim
+
+#Permite mapear el método con el indicativo del mismo método en opencv
 interpolacion={
     "lan": cv2.INTER_LANCZOS4,
     "nn": cv2.INTER_NEAREST,
@@ -19,6 +22,7 @@ interpolacion={
     "bi3": cv2.INTER_CUBIC
 }
 
+#Permite mapear el método con el nombre de dicho método
 nombres={
     "lan": "lanczos",
     "nn": "NEAREST",
@@ -28,18 +32,28 @@ nombres={
 
 #Parametros de entrada
 factor=8
+#Metodo de interpolación a evaluar
 metodo="bi2"
+#ubicación archivo de pesos de ESPCN
 weights_file=r"C:\Users\Estudiante\Documents\dataset\prueba\espcnx8.pth"
+#bool que indica si se desea calular la métrica desde 0
 correr= False
+#bool que indica si se desean cargar los resultados de super resolución sobre canal y
 y= True
+#bool que indica si se desean cargar los resultados de super resolución sobre canales RGB
 RGB= True
+#bool que indica si se desean cargar los resultados de interpolación del método descrito anteriormente
 mtd= False
 
 
-
+#Ubicación del ground truth
 gtPath=r"C:\Users\Estudiante\Documents\dataset\groundTruth\eval\*.png"
+#Ubicación de imagenes decimadas
 scPath=r"C:\Users\Estudiante\Documents\dataset\decimadasX"+str(factor)+"\eval\*.png"
+#Ubicación de destino donde almacenar los resultados
 pathDest=r"C:\Users\Estudiante\Documents\dataset\resultados\performance\x"+str(factor)+"\eval"
+
+#Carga de método de interpolación y nombre del mismo
 tecnica=interpolacion[metodo]
 interpolationName=nombres[metodo]
 
@@ -71,9 +85,14 @@ redPSNR=[]
 ntpSSIM=[]
 redSSIM=[]
 
+
 #empleando solo Y
+    #En caso de querer evaluar los métodos de super resolución usando el canal Y
 
 if (y):
+
+    # Si se desea calcular las métricas
+        # Es posible no calcular las metricas y cargar resultados almacenados previamente
 
     if (correr):
 
@@ -100,17 +119,19 @@ if (y):
             redPSNR.append(psnr(gt, output))
             redSSIM.append(ssim(im1=gt, im2=output, channel_axis=2))
 
-
+        # convertir a array
         rdPSNR=np.array(redPSNR)
         rdSSIM=np.array(redSSIM)
 
-
+        # Guardar el vector entero de resultados como archivo npy
         np.save(pathDest+r"\redPSNR_y.npy",rdPSNR)
         np.save(pathDest+r"\redSSIM_y.npy", rdSSIM)
 
+    # cargar resultados
     rdPSNR=np.load(pathDest+r"\redPSNR_y.npy")
     rdSSIM=np.load(pathDest+r"\redSSIM_y.npy")
 
+    #mostrar resultados
     print("MODELO Y")
     print("*************** PSNR *************** SSIM")
     print("promedio ", rdPSNR.mean(), "  ", rdSSIM.mean())
@@ -125,8 +146,11 @@ if (y):
 redPSNR=[]
 redSSIM=[]
 
+# En caso de querer evaluar los métodos de super resolución usando los canales RGB
 if(RGB):
 
+    # Si se desea calcular las métricas
+    # Es posible no calcular las metricas y cargar resultados almacenados previamente
     if(correr):
 
         for i,j in zip(gtFiles, scFiles):
@@ -160,17 +184,19 @@ if(RGB):
             redPSNR.append(psnr(gt, output))
             redSSIM.append(ssim(im1=gt, im2=output, channel_axis=2))
 
-
+        # convetir resultados a array
         rdPSNR=np.array(redPSNR)
         rdSSIM=np.array(redSSIM)
 
+        # Guardar el vector entero de resultados como archivo npy
         np.save(pathDest+r"\redPSNR_RGB.npy",rdPSNR)
         np.save(pathDest+r"\redSSIM_RGB.npy", rdSSIM)
 
+    # Cargar resultados
     rdPSNR=np.load(pathDest+r"\redPSNR_RGB.npy")
     rdSSIM=np.load(pathDest+r"\redSSIM_RGB.npy")
 
-
+    # mostrar resultados
     print("MODELO RGB ")
     print("************** PSNR **************** SSIM")
     print("promedio ", rdPSNR.mean(), "  ", rdSSIM.mean())
@@ -186,8 +212,11 @@ ntpSSIM=[]
 
 #empleando metodos de interpolacion
 
+# En caso de querer evaluar los métodos de interpolación
 if (mtd):
 
+    # Si se desea calcular las métricas
+    # Es posible no calcular las metricas y cargar resultados almacenados previamente
     if (correr):
 
         for i,j in zip(gtFiles, scFiles):
@@ -206,19 +235,19 @@ if (mtd):
             ntpPSNR.append(psnr(gt, ntp))
             ntpSSIM.append(ssim(im1=gt, im2=ntp, channel_axis=2))
 
-
+        # convertir array
         ntpPSNR=np.array(ntpPSNR)
         ntpSSIM=np.array(ntpSSIM)
 
-
-
+        # Guardar el vector entero de resultados como archivo npy
         np.save(pathDest +r"\I"+interpolationName+"PSNR.npy", ntpPSNR)
         np.save(pathDest +r"\I"+interpolationName+"SSIM.npy", ntpSSIM)
 
-
+    # Cargar resultados
     ntpPSNR=np.load(pathDest +r"\I"+interpolationName+"PSNR.npy")
     ntpSSIM=np.load(pathDest +r"\I"+interpolationName+"SSIM.npy")
 
+    # Cargar resultados
     print(interpolationName)
     print("*************** PSNR *************** SSIM")
     print("promedio ", ntpPSNR.mean(), "  ", ntpSSIM.mean())

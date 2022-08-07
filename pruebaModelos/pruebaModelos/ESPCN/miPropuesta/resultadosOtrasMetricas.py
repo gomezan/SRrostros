@@ -11,16 +11,17 @@ from skimage import  measure
 from pruebaModelos.ESPCN.models import ESPCN
 from pruebaModelos.ESPCN.utils import convert_ycbcr_to_rgb, preprocess, preprocessRGB
 
+#Este script permite calcular y almacenar los resultados del snr y el desenfoque
 
+#Permite calcular el snr de una imagen
 def signaltonoise(a, axis=0, ddof=0):
     a = np.asanyarray(a)
     m = a.mean(axis)
     sd = a.std(axis=axis, ddof=ddof)
     return np.where(sd == 0, 0, m/sd)
 
-#snr = scipy.stats.signaltonoise(img, axis=None)
 
-
+#Permite mapear el método con el indicativo del mismo método en opencv
 interpolacion={
     "lan": cv2.INTER_LANCZOS4,
     "nn": cv2.INTER_NEAREST,
@@ -28,6 +29,7 @@ interpolacion={
     "bi3": cv2.INTER_CUBIC
 }
 
+#Permite mapear el método con el nombre de dicho método
 nombres={
     "lan": "lanczos",
     "nn": "NEAREST",
@@ -35,17 +37,24 @@ nombres={
     "bi3": "CUBIC"
 }
 
+#Permite mapear la escala deseada con la ubicación
 pesos={
     2: r"C:\Users\Estudiante\Documents\dataset\prueba\espcn_x2Full.pth",
     4: r"C:\Users\Estudiante\Documents\dataset\prueba\best0x4.pth",
     8: r"C:\Users\Estudiante\Documents\dataset\prueba\espcnx8.pth"
 }
 
+#Calula las métricas con base en un método y la escala de dicho metodo
 def calcularOtras(factor, metodo, correr, y, RGB, mtd):
 
+    #Ubicación ground truth
     gtPath=r"C:\Users\Estudiante\Documents\dataset\groundTruth\eval\*.png"
+    # Ubicación imagenes decimadas
     scPath=r"C:\Users\Estudiante\Documents\dataset\decimadasX"+str(factor)+"\eval\*.png"
+    # Ubicación destino almacenar resultados de méticas
     pathDest=r"C:\Users\Estudiante\Documents\dataset\resultados\calidad\x"+str(factor)
+
+    #Se carga el método, el nombre y los pesos
     tecnica=interpolacion[metodo]
     interpolationName=nombres[metodo]
     weights_file=pesos[factor]
@@ -73,15 +82,16 @@ def calcularOtras(factor, metodo, correr, y, RGB, mtd):
     gtFiles=sorted(glob.glob(gtPath))
     scFiles=sorted(glob.glob(scPath))
 
-    ntpBlur=[]
+
     redBlur=[]
-    ntpSNR=[]
     redSNR=[]
 
     #empleando solo Y
-
+        #En caso de querer evaluar los métodos de super resolución usando el canal Y
     if (y):
 
+        #Si se desea calcular las métricas
+            #Es posible no calcular las metricas y cargar resultados almacenados previamente
         if (correr):
 
             for i,j in zip(gtFiles, scFiles):
@@ -108,17 +118,19 @@ def calcularOtras(factor, metodo, correr, y, RGB, mtd):
                 redBlur.append( measure.blur_effect(gray))
                 redSNR.append(signaltonoise(output, axis=None))
 
-
+            #convertir a array
             rdBlur=np.array(redBlur)
             rdSNR=np.array(redSNR)
 
-
+            #Guardar el vector entero de resultados como archivo npy
             np.save(pathDest+r"\IredBlur_y.npy",rdBlur)
             np.save(pathDest+r"\IredSNR_y.npy", rdSNR)
 
+        #cargar resultados
         rdBlur=np.load(pathDest+r"\IredBlur_y.npy")
         rdSNR=np.load(pathDest+r"\IredSNR_y.npy")
 
+        #Mostrar resultados
         print("MODELO Y "+str(factor))
         print("*************** BLUR *************** SNR")
         print("promedio ", rdBlur.mean(), "  ", rdSNR.mean())
@@ -133,8 +145,11 @@ def calcularOtras(factor, metodo, correr, y, RGB, mtd):
     redBlur=[]
     redSNR=[]
 
+    # En caso de querer evaluar los métodos de super resolución usando los canales RGB
     if(RGB):
 
+        # Si se desea calcular las métricas
+            # Es posible no calcular las metricas y cargar resultados almacenados previamente
         if(correr):
 
             for i,j in zip(gtFiles, scFiles):
@@ -169,17 +184,19 @@ def calcularOtras(factor, metodo, correr, y, RGB, mtd):
                 redBlur.append(measure.blur_effect(gray))
                 redSNR.append(signaltonoise(output, axis=None))
 
-
+            #convetir resultados a array
             rdBlur=np.array(redBlur)
             rdSNR=np.array(redSNR)
 
+            # Guardar el vector entero de resultados como archivo npy
             np.save(pathDest+r"\IredBlur_RGB.npy",rdBlur)
             np.save(pathDest+r"\IredSNR_RGB.npy", rdSNR)
 
+        #Cargar resultados
         rdBlur=np.load(pathDest+r"\IredBlur_RGB.npy")
         rdSNR=np.load(pathDest+r"\IredSNR_RGB.npy")
 
-
+        #mostrar resultados
         print("MODELO RGB "+str(factor))
         print("************** BLUR **************** SNR")
         print("promedio ", rdBlur.mean(), "  ", rdSNR.mean())
@@ -195,8 +212,11 @@ def calcularOtras(factor, metodo, correr, y, RGB, mtd):
 
     #empleando metodos de interpolacion
 
+    # En caso de querer evaluar los métodos de interpolación
     if (mtd):
 
+        # Si se desea calcular las métricas
+        # Es posible no calcular las metricas y cargar resultados almacenados previamente
         if (correr):
 
             for i,j in zip(gtFiles, scFiles):
@@ -214,19 +234,19 @@ def calcularOtras(factor, metodo, correr, y, RGB, mtd):
                 ntpBlur.append(measure.blur_effect(gray))
                 ntpSNR.append(signaltonoise(ntp, axis=None))
 
-
+            #convertir array
             ntpBlur=np.array(ntpBlur)
             ntpSNR=np.array(ntpSNR)
 
-
-
+            # Guardar el vector entero de resultados como archivo npy
             np.save(pathDest +r"\I"+interpolationName+"BLUR.npy", ntpBlur)
             np.save(pathDest +r"\I"+interpolationName+"SNR.npy", ntpSNR)
 
-
+        # Cargar resultados
         ntpBlur=np.load(pathDest +r"\I"+interpolationName+"BLUR.npy")
         ntpSNR=np.load(pathDest +r"\I"+interpolationName+"SNR.npy")
 
+        # mostrar resultados
         print(interpolationName+" "+str(factor))
         print("*************** BLUR *************** SNR")
         print("promedio ", ntpBlur.mean(), "  ", ntpSNR.mean())
